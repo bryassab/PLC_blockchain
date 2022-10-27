@@ -3,7 +3,7 @@
 import datetime
 import hashlib
 import json 
-from flask import Flask, jsonify
+from flask import Flask, jsonify, request
 
 # Paso 1 - Armando el Blockchain
 
@@ -63,8 +63,7 @@ app = Flask(__name__)
 blockchain = Blockchain()
     
 # Minando un Nuevo Bloque
-@app.route('/mine_block', methods=['GET'])
-
+@app.route('/mine_block', methods=['POST'])
 def mine_block():
     previous_block = blockchain.get_previous_block()
     previous_proof = previous_block['proof']
@@ -77,16 +76,23 @@ def mine_block():
                 'proof':block['proof'],
                 'previous_hash':block['previous_hash']}
     return jsonify(response), 200
-    
-    
 
-# Obteniendo Cadena Completa
-@app.route('/get_chain', methods=['GET'])
+# Obteniendo todas las cadenas
+@app.route('/get_chains', methods=['GET'])
 def get_chain():
     response = {'chain':blockchain.chain,
                 'length':len(blockchain.chain)}
     return jsonify(response), 200
-    
+
+# Obteniendo una cadena
+@app.route('/get_chain/<index>', methods=['GET'])
+def get_one_chain(index):
+    for chain in blockchain.chain:
+        if chain['index'] == int(index):
+            return jsonify(chain), 200
+        return jsonify({'message': 'Content not found'}), 404
+
+
 # Chequeando validez de cadena de bloques
 @app.route('/is_valid', methods=['GET'])
 def is_valid():
@@ -98,5 +104,4 @@ def is_valid():
     return jsonify(response), 200
 
 # Corriendo el App
-    
 app.run(host='0.0.0.0', port='5000')
