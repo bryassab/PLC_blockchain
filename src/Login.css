@@ -1,0 +1,25 @@
+h3 {
+
+    line-height: 2;
+}
+
+.login {
+    width: 40%;
+    height: 50vh;
+    margin: auto;
+    background-color: #fff;
+    margin-top: 12%;
+    text-align: center;
+    border-radius: 20px;
+
+}
+
+.inputs {
+    width: 80%;
+    margin: auto;
+    margin-top: 5%;
+}
+
+.buttons {
+    margin-top: 10%;
+}
