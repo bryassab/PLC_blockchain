@@ -8,7 +8,7 @@ sys.path.insert(0, str(pathlib.Path(__file__).parent.parent.parent.parent))
 # CREANDO UN BLOCKCHAIN
 from uuid import uuid4
 from flask import Flask, jsonify, request
-from PLC_blockchain.app.models.blockchain import Blockchain
+from blockchain.app.models.blockchain import Blockchain
 
 # Importar Blockchain Class
 
@@ -31,12 +31,13 @@ def mine_block():
     name = json['name']
     age = json['age']
     email = json['email']
+    description = json['description']
     previous_block = blockchain.get_previous_block()
     previous_proof = previous_block['proof']
     proof = blockchain.proof_of_work(previous_proof)
     previous_hash = blockchain.hash(previous_block)
     block = blockchain.create_block(
-        name, age, email, proof, previous_hash, genesis=False)
+        name, age, email, description, proof, previous_hash, genesis=False)
     return jsonify(block), 200
 
 
