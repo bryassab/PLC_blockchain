@@ -8,19 +8,14 @@ sys.path.insert(0, str(pathlib.Path(__file__).parent.parent.parent.parent))
 # CREANDO UN BLOCKCHAIN
 from uuid import uuid4
 from flask import Flask, jsonify, request
-from blockchain.app.models.blockchain import Blockchain
+from PLC_blockchain.app.models.blockchain import Blockchain
 
 # Importar Blockchain Class
 
 blockchain = Blockchain()
 
-# Paso 2 - Minando el Blockchain
-
 # Creando Web App
 app = Flask(__name__)
-
-# Creando Blockchain
-blockchain = Blockchain()
 
 # Minando un Nuevo Bloque
 
