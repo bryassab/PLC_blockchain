@@ -5,7 +5,7 @@ h3 {
 
 .login {
     width: 40%;
-    height: 50vh;
+    height: 50%;
     margin: auto;
     background-color: #fff;
     margin-top: 12%;
@@ -22,4 +22,5 @@ h3 {
 
 .buttons {
     margin-top: 10%;
+    padding: 9pt;
 }
