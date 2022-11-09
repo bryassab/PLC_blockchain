@@ -33,46 +33,42 @@
         </div>
     </nav>
     <div class="inputBlock">
-        <div class="container text-center">
-            <div class="row">
-                <div class="col">
-                    <div class="form-floating mb-2">
-                        <input type="text" class="form-control" id="floatingInput" placeholder="Name">
-                        <label for="floatingInput">Name</label>
+        <form action="http://127.0.0.1:5001/mine_block" method="post" enctype="multipart/form-data">
+            <div class="container text-center">
+                <div class="row">
+                    <div class="col">
+                        <div class="form-floating mb-2">
+                            <input type="text" class="form-control" id="name" placeholder="Name" name="name">
+                            <label for="name">Name</label>
+                        </div>
                     </div>
-                </div>
-                <div class="col">
-                    <div class="form-floating mb-2">
-                        <input type="text" class="form-control" id="floatingInput" placeholder="Age">
-                        <label for="floatingInput">Age</label>
+                    <div class="col">
+                        <div class="form-floating mb-2">
+                            <input type="text" class="form-control" id="age" placeholder="Age" name="age">
+                            <label for="age">Age</label>
+                        </div>
                     </div>
-                </div>
-                <div class="col">
-                    <div class="form-floating mb-2">
-                        <input type="text" class="form-control" id="floatingInput" placeholder="Email">
-                        <label for="floatingInput">Email</label>
+                    <div class="col">
+                        <div class="form-floating mb-2">
+                            <input type="text" class="form-control" id="email" placeholder="Email" name="email">
+                            <label for="email">Email</label>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-
-
-
-
     </div>
-
     <div class="inputDescription">
         <div class="form-floating mb-2">
-            <input type="text" class="form-control" id="floatingInput" placeholder="Description">
-            <label for="floatingInput">Description</label>
+            <input type="text" class="form-control" id="description" placeholder="Description" name="description">
+            <label for="description">Description</label>
         </div>
         <div class="mb-3">
             <label for="formFile" class="form-label">PDF</label>
-            <input class="form-control" type="file" id="formFile">
+            <input class="form-control" type="file" id="formFile" name="pdf">
         </div>
         <div class="mb-3">
             <label for="formFile" class="form-label">RAR</label>
-            <input class="form-control" type="file" id="formFile">
+            <input class="form-control" type="file" id="formFile" name="compressed">
         </div>
         <div class="container text-center">
             <div class="row">
@@ -80,15 +76,53 @@
                     <button type="button" class="btn btn-danger">Cancel</button>
                 </div>
                 <div class="col">
-                    <button type="button" class="btn btn-primary col-auto">Register</button>
+                    <button type="submit" class="btn btn-primary col-auto">Register</button>
                 </div>
             </div>
         </div>
     </div>
-    </div>
+    </form>
+    <table id="hola">
+        <thead>
+            <tr>
+                <th>id</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td></td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a id="a">view pdf</a>
+
+
+
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3"
         crossorigin="anonymous"></script>
+    <script>
+
+        const dates = async () => {
+            const response = await fetch('http://127.0.0.1:5001/uploads')
+                .then(data => data.json())
+                .then(datas => datas);
+            return response;
+        }
+        (async () => {
+            const response = await dates()
+            const get_a = document.getElementById("a")
+            //const url = `http://localhost:5001/public/pdf/${response.pdf_files[0].file_name}`
+            const url = `http://localhost:5001/public/compressed/09-11-2022_113347.zip`
+            get_a.setAttribute("href", url)
+            get_a.setAttribute("download", 'rar')
+            console.log(response.pdf_files[0].file_name)
+        })()
+
+
+    </script>
 </body>
 
 </html>

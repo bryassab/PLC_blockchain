@@ -20,7 +20,7 @@ from PLC_blockchain.app.models.blockchain import Blockchain
 blockchain = Blockchain()
 
 # Creando Web App
-app = Flask(__name__)
+app = Flask(__name__,static_url_path='/public',static_folder='../public/uploads')
 CORS(app)
 
 # Creando Blockchain
@@ -31,6 +31,7 @@ def allowed_file(filename):
     return '.' in filename and \
            filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
+# uploads?month=01
 @app.route('/uploads', methods=['GET'])
 def uploads():
     args = request.args
