@@ -20,7 +20,7 @@ from PLC_blockchain.app.models.blockchain import Blockchain
 blockchain = Blockchain()
 
 # Creando Web App
-app = Flask(__name__,static_url_path='/public',static_folder='../public/uploads'))
+app = Flask(__name__,static_url_path='/public',static_folder='../public/uploads')
 CORS(app)
 
 # Creando Blockchain
