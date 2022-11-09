@@ -21,7 +21,7 @@ blockchain = Blockchain()
 # Paso 2 - Minando el Blockchain
 
 # Creando Web App
-app = Flask(__name__)
+app = Flask(__name__,static_url_path='/public',static_folder='../public/uploads'))
 CORS(app)
 
 # Creando Blockchain
@@ -48,10 +48,10 @@ def uploads():
                 number_month = pdf.split("-")[1]
                 if month == number_month:
                     json_pdf["file_name"] = pdf;
-                    json_pdf["path"] = "/uploads/pdf/" + pdf 
+                    json_pdf["path"] = "/public/pdf/" + pdf 
             else: 
                 json_pdf["file_name"] = pdf;
-                json_pdf["path"] = "/uploads/pdf/" + pdf
+                json_pdf["path"] = "/public/pdf/" + pdf
             
             for compressed in os.listdir(compressed_folder):
                 compressed_extension = compressed.split(".")[1]
@@ -61,10 +61,10 @@ def uploads():
                         number_month = compressed.split("-")[1]
                         if month == number_month:
                             if compressed_date == pdf_date:
-                                json_pdf["compressed_path"] = "/uploads/compressed/" + compressed
+                                json_pdf["compressed_file_name"] = compressed
                     else: 
                         if compressed_date == pdf_date:
-                            json_pdf["compressed_path"] = "/uploads/compressed/" + compressed
+                            json_pdf["compressed_file_name"] = compressed
                     
             if len(json_pdf) != 0:  
                 data["pdf_files"].append(json_pdf)
@@ -97,10 +97,10 @@ def mine_block():
             filename = secure_filename(now_date + file_extension)
             folder = "compressed"
             if file_extension.split(".")[1] == "rar" or file_extension.split(".")[1] == "zip": 
-                path_compressed = f'/uploads/{folder}/{filename}'
+                path_compressed = f'/public/{folder}/{filename}'
             if file_extension.split(".")[1] == "pdf": 
                 folder = "pdf"
-                path_pdf = f'/uploads/{folder}/{filename}'
+                path_pdf = f'/public/{folder}/{filename}'
             file.save(os.path.join(f'app/public/uploads/{folder}', filename))
     else:
         return jsonify({"message": "Extensiones no soportadas"}), 400
