@@ -1,3 +1,4 @@
+import os
 import sys
 import pathlib
 from flask_cors import CORS
@@ -7,8 +8,11 @@ path = sys.path[0]
 sys.path.insert(0, str(pathlib.Path(__file__).parent.parent.parent.parent))
 
 # CREANDO UN BLOCKCHAIN
+from datetime import datetime
 from uuid import uuid4
 from flask import Flask, jsonify, request
+from flask_cors import CORS
+from werkzeug.utils import secure_filename
 from PLC_blockchain.app.models.blockchain import Blockchain
 
 # Importar Blockchain Class
@@ -19,22 +23,92 @@ blockchain = Blockchain()
 app = Flask(__name__)
 CORS(app)
 
+# Creando Blockchain
+blockchain = Blockchain()
+
+def allowed_file(filename):
+    ALLOWED_EXTENSIONS = {'pdf', 'rar', 'zip'}
+    return '.' in filename and \
+           filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+
+@app.route('/uploads', methods=['GET'])
+def uploads():
+    args = request.args
+    month = args.get("month")
+    data = {"pdf_files":[]}
+    pdf_folder = str(pathlib.Path("app/public/uploads/pdf").resolve())
+    compressed_folder = str(pathlib.Path("app/public/uploads/compressed").resolve())
+    for pdf in os.listdir(pdf_folder):
+        pdf_date = pdf.split(".")[0]
+        pdf_extension = pdf.split(".")[1]
+        json_pdf = {}
+        if pdf_extension == "pdf":
+            if month != None:
+                number_month = pdf.split("-")[1]
+                if month == number_month:
+                    json_pdf["file_name"] = pdf;
+                    json_pdf["path"] = "/uploads/pdf/" + pdf 
+            else: 
+                json_pdf["file_name"] = pdf;
+                json_pdf["path"] = "/uploads/pdf/" + pdf
+            
+            for compressed in os.listdir(compressed_folder):
+                compressed_extension = compressed.split(".")[1]
+                compressed_date = compressed.split(".")[0]
+                if compressed_extension == "rar" or compressed_extension == "zip":
+                    if month != None:
+                        number_month = compressed.split("-")[1]
+                        if month == number_month:
+                            if compressed_date == pdf_date:
+                                json_pdf["compressed_path"] = "/uploads/compressed/" + compressed
+                    else: 
+                        if compressed_date == pdf_date:
+                            json_pdf["compressed_path"] = "/uploads/compressed/" + compressed
+                    
+            if len(json_pdf) != 0:  
+                data["pdf_files"].append(json_pdf)
+
+    return jsonify(data), 200
+
+
+
 # Minando un Nuevo Bloque
-
-
 @app.route('/mine_block', methods=['POST'])
 def mine_block():
-    json = request.get_json()
-    name = json['name']
-    age = json['age']
-    email = json['email']
-    description = json['description']
+    name = request.form['name']
+    age = request.form['age']
+    email = request.form['email']
+    description = request.form['description']
+    path_pdf = ''
+    path_compressed = ''
+    pdf_file = request.files['pdf']
+    rar_zip = request.files['compressed']
+    if pdf_file.filename == '' or rar_zip.filename == '':
+        return jsonify({"message": "Por favor seleccione un archivo"}), 400
+    if pdf_file and allowed_file(pdf_file.filename) and rar_zip and allowed_file(rar_zip.filename):
+        # dd/mm/YY
+        now = datetime.now()
+        now_date = now.strftime("%d-%m-%Y %H:%M:%S")
+        for lap in range(1,3):
+            file = pdf_file
+            if lap == 2: file = rar_zip
+            file_extension = pathlib.Path(file.filename).suffix
+            filename = secure_filename(now_date + file_extension)
+            folder = "compressed"
+            if file_extension.split(".")[1] == "rar" or file_extension.split(".")[1] == "zip": 
+                path_compressed = f'/uploads/{folder}/{filename}'
+            if file_extension.split(".")[1] == "pdf": 
+                folder = "pdf"
+                path_pdf = f'/uploads/{folder}/{filename}'
+            file.save(os.path.join(f'app/public/uploads/{folder}', filename))
+    else:
+        return jsonify({"message": "Extensiones no soportadas"}), 400
     previous_block = blockchain.get_previous_block()
     previous_proof = previous_block['proof']
     proof = blockchain.proof_of_work(previous_proof)
     previous_hash = blockchain.hash(previous_block)
     block = blockchain.create_block(
-        name, age, email, description, proof, previous_hash, genesis=False)
+        name, age, email, description, path_pdf, path_compressed, proof, previous_hash, genesis=False)
     return jsonify(block), 200
 
 
