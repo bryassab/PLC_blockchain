@@ -1,5 +1,6 @@
 import sys
 import pathlib
+from flask_cors import CORS
 # Crear el path del archivo actual
 path = sys.path[0]
 # Inserta en el sistema el folder principal como modulo
@@ -8,19 +9,15 @@ sys.path.insert(0, str(pathlib.Path(__file__).parent.parent.parent.parent))
 # CREANDO UN BLOCKCHAIN
 from uuid import uuid4
 from flask import Flask, jsonify, request
-from blockchain.app.models.blockchain import Blockchain
+from PLC_blockchain.app.models.blockchain import Blockchain
 
 # Importar Blockchain Class
 
 blockchain = Blockchain()
 
-# Paso 2 - Minando el Blockchain
-
 # Creando Web App
 app = Flask(__name__)
-
-# Creando Blockchain
-blockchain = Blockchain()
+CORS(app)
 
 # Minando un Nuevo Bloque
 
