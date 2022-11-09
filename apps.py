@@ -17,7 +17,7 @@ def load_user(id):
 
 # redirige login
 @app.route("/")
-def index():
+def map():
     return redirect(url_for('login'))
 
 @app.route('/login', methods=['GET', 'POST'])
@@ -40,7 +40,7 @@ def login():
     #Dentro de las comillas ruta del login o lo que se vaya usara de front
     
 @app.route('/index')
-def cancel():
+def index():
     return render_template("home.html")
 
 @app.route('/logout')
@@ -53,11 +53,16 @@ def logout():
 def admin():
     return render_template("administrator.html")
 
+@app.route('/program')
+def program():
+    return render_template("programs.html")
+
 def status401(error):
     return redirect(url_for('login'))
 
 def status404(error):
     return '<h1> Página no encontrada</h1>', 404
+
 
 if __name__ == '__main__':
     app.config.from_object(config['development'])
