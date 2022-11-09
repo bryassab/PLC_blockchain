@@ -10,11 +10,11 @@ class Blockchain:
     def __init__(self):
         self.chains = []
         self.transactions = []
-        self.create_block(name='', age='', email='', description='', proof=1,
+        self.create_block(name='', age='', email='', description='', path_pdf='', path_compressed='', proof=1,
                           previous_hash='0', genesis=True)
         self.nodes = set()
 
-    def create_block(self, name, age, email, description, proof, previous_hash, genesis):
+    def create_block(self, name, age, email, description, path_pdf, path_compressed, proof, previous_hash, genesis):
         if (genesis):
             block = {'index': len(self.chains) + 1,
                      'timestamp': str(datetime.datetime.now()),
@@ -27,6 +27,8 @@ class Blockchain:
                      'age': age,
                      'email': email,
                      'description':description,
+                     'path_pdf':path_pdf,
+                     'path_compressed': path_compressed,
                      'timestamp': str(datetime.datetime.now()),
                      'proof': proof,
                      'previous_hash': previous_hash,
