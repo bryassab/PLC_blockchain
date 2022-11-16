@@ -12,7 +12,9 @@ class Blockchain:
         self.transactions = []
         self.create_block(name='', age='', email='', description='', path_pdf='', path_compressed='', proof=1,
                           previous_hash='0', genesis=True)
-        self.nodes = set()
+        self.nodes = ["127.0.0.1:5001",
+                          "127.0.0.1:5002",
+                          "127.0.0.1:5003"]
 
     def create_block(self, name, age, email, description, path_pdf, path_compressed, proof, previous_hash, genesis):
         if (genesis):
@@ -26,8 +28,8 @@ class Blockchain:
                      'name': name,
                      'age': age,
                      'email': email,
-                     'description':description,
-                     'path_pdf':path_pdf,
+                     'description': description,
+                     'path_pdf': path_pdf,
                      'path_compressed': path_compressed,
                      'timestamp': str(datetime.datetime.now()),
                      'proof': proof,
@@ -92,7 +94,7 @@ class Blockchain:
         longest_chain = None
         max_length = len(self.chains)
         for node in network:
-            response = requests.get(f'http://{node}/get_chain')
+            response = requests.get(f'http://{node}/get_chains')
             if response.status_code == 200:
                 length = response.json()['length']
                 chain = response.json()['chain']

@@ -120,8 +120,6 @@ def get_chain():
     return jsonify(response), 200
 
 # Obteniendo una cadena
-
-
 @app.route('/get_chains/<index>', methods=['GET'])
 def get_one_chain(index):
     for chain in blockchain.chains:
@@ -161,7 +159,7 @@ def add_transaction(index):
 # Paso 3 - Descentralizando el Blockchain
 
 # Conectando Nuevos Nodos
-@app.route('/connect_node', methods=['POST'])
+@app.route('/connect_node', methods=['POST']) #Unused
 def connect_node():
     json = request.get_json()
     nodes = json.get('nodes')
@@ -169,12 +167,12 @@ def connect_node():
         return "No node", 401
     for node in nodes:
         blockchain.add_node(node)
-    response = {'message': 'Todos los ndoos estan ahora conectados. El plcCoin Blockchain contiene los siguientes nodos:',
+    response = {'message': 'Todos los nodos estan ahora conectados. El plcCoin Blockchain contiene los siguientes nodos:',
                 'total_nodes': list(blockchain.nodes)}
     return jsonify(response), 201
 
 # Remplazando la Cadena por la Mas Larga
-@app.route('/replace_chain', methods=['GET'])
+@app.route('/replace_chain', methods=['POST'])
 def replace_chain():
     is_chain_replaced = blockchain.replace_chain()
     if is_chain_replaced:
