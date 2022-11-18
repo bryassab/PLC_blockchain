@@ -16,7 +16,6 @@ from werkzeug.utils import secure_filename
 from PLC_blockchain.app.models.blockchain import Blockchain
 
 # Importar Blockchain Class
-
 blockchain = Blockchain()
 
 # Creando Web App
@@ -110,7 +109,7 @@ def mine_block():
     previous_hash = blockchain.hash(previous_block)
     block = blockchain.create_block(
         name, age, email, description, path_pdf, path_compressed, proof, previous_hash, genesis=False)
-    return jsonify(block), 200
+    return block, 200
 
 
 # Obteniendo todas las cadenas
@@ -120,9 +119,8 @@ def get_chain():
                 'length': len(blockchain.chains)}
     return jsonify(response), 200
 
+
 # Obteniendo una cadena
-
-
 @app.route('/get_chains/<index>', methods=['GET'])
 def get_one_chain(index):
     for chain in blockchain.chains:
@@ -130,9 +128,8 @@ def get_one_chain(index):
             return jsonify(chain), 200
     return jsonify({'message': 'Content not found'}), 404
 
+
 # Chequeando validez de cadena de bloques
-
-
 @app.route('/is_valid', methods=['GET'])
 def is_valid():
     is_valid = blockchain.is_chain_valid(blockchain.chains)
