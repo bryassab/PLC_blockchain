@@ -84,7 +84,8 @@
                                     class="btn btn-danger">Cancel</button>
                             </div>
                             <div class="col">
-                                <button type="submit" class="btn btn-primary col-auto">Register</button>
+                                <button type="submit" onclick="newBlock()"
+                                    class="btn btn-primary col-auto">Register</button>
                             </div>
                         </div>
                     </div>
@@ -92,11 +93,16 @@
                 </form>
             </div>
             <div class="col">
-                Column
+                <select id="producto" name="producto">
+                    <option value="http://127.0.0.1:5001/connect_node">Node 5001</option>
+                    <option value="http://127.0.0.1:5002/connect_node">Node 5002</option>
+                    <option value="http://127.0.0.1:5003/connect_node">Node 5003</option>
+                </select>
+                <div class="col">
+                    <button type="submit" onclick="nodeConnect()" class="btn btn-primary col-auto">Register</button>
+                </div>
             </div>
-            <div class="col">
-                Column
-            </div>
+
         </div>
     </div>
 
