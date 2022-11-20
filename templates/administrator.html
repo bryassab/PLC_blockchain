@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+    <!-- utilizacion de bootrap para mejor visualizacion de la api web y renderizado de flask a cada html-->
     <link rel="stylesheet" href="{{ url_for('static', filename='administrator.css')}}">
     <link rel="stylesheet" href="{{ url_for('static', filename='menu.css')}}">
     <title>Administrator</title>
@@ -32,15 +33,16 @@
             </div>
         </div>
     </nav>
-
+    <!--Formulario para minar cada bloque con su respectivo documento-->
     <div class="container text-center">
         <div class="row">
-            <div class="col-6">
+            <div class="col-7">
                 <div class="inputBlock">
+                    <h5>New Block</h5>
                     <form enctype="multipart/form-data" id="formUpload" method="post">
                         <div class="container text-center">
                             <div class="row">
-                                <div class="col">
+                                <div class="col-7">
                                     <div class="form-floating mb-2">
                                         <input type="text" class="form-control" id="name" placeholder="Name"
                                             name="name">
@@ -69,11 +71,11 @@
                             name="description">
                         <label for="description">Description</label>
                     </div>
-                    <div class="mb-3">
+                    <div class="mb-1">
                         <label for="formFile" class="form-label">PDF</label>
                         <input class="form-control" type="file" id="formFile" name="pdf">
                     </div>
-                    <div class="mb-3">
+                    <div class="mb-1">
                         <label for="formFile" class="form-label">RAR</label>
                         <input class="form-control" type="file" id="formFile" name="compressed">
                     </div>
@@ -92,24 +94,24 @@
                 </div>
                 </form>
             </div>
-            <div class="col">
-                <select id="producto" name="producto">
-                    <option value="http://127.0.0.1:5001/connect_node">Node 5001</option>
-                    <option value="http://127.0.0.1:5002/connect_node">Node 5002</option>
-                    <option value="http://127.0.0.1:5003/connect_node">Node 5003</option>
-                </select>
-                <div class="col">
-                    <button type="submit" onclick="nodeConnect()" class="btn btn-primary col-auto">Register</button>
+            <!--Todas las cadenas ya se conectan apenas se anciende el nodo, este select no es dinamico 
+            asi que por el momento solo pude reaamplazar 3 cadenas-->
+            <div class="col-5">
+                <div class="inputBlock">
+                    <h5>Replace chain</h5>
+                    <select id="producto" name="producto">
+                        <option value="http://127.0.0.1:5001/replace_chain">Node 5001</option>
+                        <option value="http://127.0.0.1:5002/replace_chain">Node 5002</option>
+                        <option value="http://127.0.0.1:5003/replace_chain">Node 5003</option>
+                    </select>
+                    <div class="col">
+                        <button type="submit" onclick="nodeConnect()" class="btn btn-primary col-auto">Replace</button>
+                    </div>
                 </div>
             </div>
 
         </div>
     </div>
-
-
-
-
-
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3"
         crossorigin="anonymous"></script>

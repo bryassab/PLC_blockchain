@@ -119,7 +119,7 @@ def get_chain():
                 'length': len(blockchain.chains)}
     return jsonify(response), 200
 
-# Obteniendo una cadena
+# Obteniendo un bloque
 @app.route('/get_chains/<index>', methods=['GET'])
 def get_one_chain(index):
     for chain in blockchain.chains:

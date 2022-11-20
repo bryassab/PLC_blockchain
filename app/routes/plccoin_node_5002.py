@@ -30,7 +30,8 @@ def allowed_file(filename):
     ALLOWED_EXTENSIONS = {'pdf', 'rar', 'zip'}
     return '.' in filename and \
            filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
-
+           
+# uploads?month=01, buscando los documentos por mes de creacion
 @app.route('/uploads', methods=['GET'])
 def uploads():
     args = request.args
@@ -119,7 +120,7 @@ def get_chain():
                 'length': len(blockchain.chains)}
     return jsonify(response), 200
 
-# Obteniendo una cadena
+# Obteniendo un bloque
 @app.route('/get_chains/<index>', methods=['GET'])
 def get_one_chain(index):
     for chain in blockchain.chains:
@@ -138,9 +139,8 @@ def is_valid():
             'message': 'Houston, tenemos un problema. El blockchain no es valido!'}
     return jsonify(response), 200
 
-# Agregando nueva transaccion al blockchain
-
-
+# Agregando nueva transaccion al blockchain index como numero index de cada bloque
+#la transaccion se agrega a un bloque en especidifco
 @app.route('/add_transaction/<index>', methods=['PATCH'])
 def add_transaction(index):
     json = request.get_json()
@@ -155,8 +155,7 @@ def add_transaction(index):
     return jsonify(response), 201
 
 # Paso 3 - Descentralizando el Blockchain
-
-# Conectando Nuevos Nodos
+# Conectando Nuevos Nodos, apenas se encienden los nodos, estos se conectan automaticamente, aun no es dunamico
 @app.route('/connect_node', methods=['POST']) #Unused
 def connect_node():
     json = request.get_json()
