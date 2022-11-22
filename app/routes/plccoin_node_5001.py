@@ -7,7 +7,7 @@ path = sys.path[0]
 # Inserta en el sistema el folder principal como modulo
 sys.path.insert(0, str(pathlib.Path(__file__).parent.parent.parent.parent))
 
-# CREANDO UN BLOCKCHAIN
+
 from datetime import datetime
 from uuid import uuid4
 from flask import Flask, jsonify, request

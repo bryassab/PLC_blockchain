@@ -39,6 +39,7 @@ def login():
         return render_template('login.html')
     #Dentro de las comillas ruta del login o lo que se vaya usara de front
     
+#redireccionamiento por flask a cada componente html
 @app.route('/index')
 def index():
     return render_template("home.html")
